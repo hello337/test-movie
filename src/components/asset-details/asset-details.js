@@ -26,9 +26,17 @@ class AssetDetails extends Component {
 
         return (
             <div>
-                <img src={path}/>
-                {title}
-                {overview}
+                <div>
+                    <img src={path}/>
+                </div>
+                <div>
+                    <div>
+                        {title}
+                    </div>
+                    <div>
+                        {overview}
+                    </div>
+                </div>
             </div>
         )
     };

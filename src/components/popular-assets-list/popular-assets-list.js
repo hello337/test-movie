@@ -8,6 +8,7 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import {Link} from 'react-router-dom';
 import AssetListItem from '../asset-list-item';
+import { Fragment } from 'react/cjs/react.production.min';
 
 class PopularAssetsList extends Component {
     componentDidMount() {
@@ -25,17 +26,20 @@ class PopularAssetsList extends Component {
         }
 
         return (
-            <div>
-            {
-                popularAssets.map((asset) => {
-                    return (
-                        <AssetListItem 
-                            key={asset.id}
-                            asset={asset} />
-                    )
-                })
-            }
-            </div>
+            <Fragment>
+                <div><h2>Popular movies</h2></div>
+                <div className="assets-list">
+                {
+                    popularAssets.map((asset) => {
+                        return (
+                            <AssetListItem 
+                                key={asset.id}
+                                asset={asset} />
+                        )
+                    })
+                }
+                </div>
+            </Fragment>
         )
     };
 };

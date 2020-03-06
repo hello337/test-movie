@@ -8,6 +8,8 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import AssetListItem from '../asset-list-item';
 
+import './asset-list.sass';
+
 class AssetList extends Component {
     componentDidMount() {
         this.props.fetchGenreAssets(this.props.id);
@@ -24,7 +26,7 @@ class AssetList extends Component {
         }
 
         return (
-            <div>
+            <div className="assets-list">
             {
                 assets.map((asset) => {
                     return (

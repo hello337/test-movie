@@ -72,11 +72,21 @@ const genreAssetsError = (error) => {
     };
 };
 
-const fetchGenreAssets = (moviesService, dispatch) => (id) => {
+const fetchGenreAssets = (moviesService, dispatch) => (id, page) => {
     dispatch(genreAssetsRequested());
-    moviesService.getAssetsByGenre(id)
+    moviesService.getAssetsByGenre(id, page)
       .then((data) => dispatch(genreAssetsLoaded(data)))
       .catch((err) => dispatch(genreAssetsError(err)));
+};
+
+const genreAssetsReset = () => {
+    return {
+        type: 'GENRE_ASSETS_DATA_RESET_ACTION'
+    };
+};
+
+const resetGenreAssets = (dispatch) => () => {
+    dispatch(genreAssetsReset());
 };
 
 const assetRequested = () => {
@@ -106,7 +116,10 @@ const fetchAsset = (moviesService, dispatch) => (id) => {
       .catch((err) => dispatch(assetError(err)));
 };
 
+
+
 export {
+    resetGenreAssets,
     fetchPopular,
     fetchGenres,
     fetchGenreAssets,

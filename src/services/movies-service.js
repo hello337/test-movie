@@ -22,8 +22,8 @@ export default class MoviesService {
         const res = await this.getResource(`/category`);
         return res.data.genres;
     }
-    getAssetsByGenre = async (id) => {
-        const res = await this.getResource(`/category/${id}/assets`);
+    getAssetsByGenre = async (id, page) => {
+        const res = await this.getResource(`/category/${id}/assets?page=${page}`);
         return res.data.results.map(this._transformAsset);
     }
 

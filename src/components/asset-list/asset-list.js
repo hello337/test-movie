@@ -1,54 +1,81 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { connect } from 'react-redux';
-import { fetchGenreAssets } from '../../actions';
+import { fetchGenreAssets, fetchGenres, resetGenreAssets } from '../../actions';
 import withMoviesService from '../hoc';
 
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import AssetListItem from '../asset-list-item';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import './asset-list.sass';
 
 class AssetList extends Component {
     componentDidMount() {
-        this.props.fetchGenreAssets(this.props.id);
+        this.props.resetGenreAssets();
+        this.props.fetchGenreAssets(this.props.id, this.props.assetPageCounter);
+        this.props.fetchGenres();
+    }
+
+    loadData = (page) => {
+        this.props.fetchGenreAssets(this.props.id, page);
+        console.log('Page: ', page);
+    }
+
+    renderAssets = () => {
+        console.log('Assets arr', this.props.assets);
+        return this.props.assets.map((assetsRender) => assetsRender.map((asset) => <AssetListItem 
+            key={asset.id}
+            asset={asset} />
+            ))
+
     }
 
     render() {
-        const { assets, loading, error } = this.props; 
-        if (loading) {
-            return <Spinner />;
-        }
+        const { genres, assets, loading, error } = this.props; 
+        // const genreId = this.props.id;
+        // console.log(genres);
+        // console.log(this.props.id);
+        // const genreName = genres.find((a) => a.id === genreId);
+        // console.log(genreName);
+        // console.log("Assets:", assets);
+        
+        // if (loading) {
+        //     return <Spinner />;
+        // }
       
         if (error) {
             return <ErrorIndicator />;
         }
 
         return (
-            <div className="assets-list">
-            {
-                assets.map((asset) => {
-                    return (
-                        <AssetListItem 
-                            key={asset.id}
-                            asset={asset} />
-                    )
-                })
-            }
-            </div>
+            <InfiniteScroll
+                initialLoad={false} 
+                pageStart={2}
+                loadMore={this.loadData}
+                hasMore={true}
+                loader={<Spinner/>}>
+                <div className="assets-list">
+                {
+                    this.renderAssets()
+                }
+                </div>
+            </InfiniteScroll>
         );
     };
 };
 
-const mapStateToProps = ({ assets, loading, error }) => {
-    return { assets, loading, error };
+const mapStateToProps = ({ genres, assets, loading, error, assetPageCounter }) => {
+    return { genres, assets, loading, error, assetPageCounter };
 };
   
 const mapDispatchToProps = (dispatch, { moviesService }) => {
 
     return {
-        fetchGenreAssets: fetchGenreAssets(moviesService, dispatch)
+        fetchGenreAssets: fetchGenreAssets(moviesService, dispatch),
+        fetchGenres: fetchGenres(moviesService, dispatch),
+        resetGenreAssets: resetGenreAssets(dispatch)
     };
 };
 

@@ -4,6 +4,7 @@ const initialState = {
 	error: null,
 	genres: [],
 	assets: [],
+	assetPageCounter: 1,
 	asset: {}
 };
   
@@ -52,17 +53,24 @@ const initialState = {
 				loading: false,
 				error: action.payload
 			};
-		case 'GET_GENRE_ASSETS_DATA_ACTION':
+		case 'GENRE_ASSETS_DATA_RESET_ACTION':
 			return {
 				...state,
 				assets: [],
+				loading: false,
+				error: null
+			};
+		case 'GET_GENRE_ASSETS_DATA_ACTION':
+			return {
+				...state,
 				loading: true,
 				error: null
 			};
 		case 'GENRE_ASSETS_DATA_RECEIVED_ACTION':
 			return {
 				...state,
-				assets: action.payload,
+				assets: [...state.assets, action.payload],
+				assetPageCounter: state.assetPageCounter + 1,
 				loading: false,
 				error: null
 			};

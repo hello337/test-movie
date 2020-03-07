@@ -34,12 +34,17 @@ class AssetList extends Component {
 
     render() {
         const { genres, assets, loading, error } = this.props; 
-        // const genreId = this.props.id;
-        // console.log(genres);
-        // console.log(this.props.id);
-        // const genreName = genres.find((a) => a.id === genreId);
-        // console.log(genreName);
-        // console.log("Assets:", assets);
+        // let genreId = this.props.id;
+        // console.log(genreId);
+        // let genreName = '';
+        // genres.forEach(item => {console.log(typeof(item.id)); if(item.id == genreId) genreName=item.name});
+        // console.log(genreName,typeof(genreName));
+        // let genreNameUpper;
+        // try {
+        //     genreNameUpper = genreName[0].toUpperCase() + genreName.slice(1);
+        // } catch {
+        //     genreNameUpper = '';
+        // }
         
         // if (loading) {
         //     return <Spinner />;
@@ -50,18 +55,21 @@ class AssetList extends Component {
         }
 
         return (
-            <InfiniteScroll
-                initialLoad={false} 
-                pageStart={2}
-                loadMore={this.loadData}
-                hasMore={true}
-                loader={<Spinner/>}>
-                <div className="assets-list">
-                {
-                    this.renderAssets()
-                }
-                </div>
-            </InfiniteScroll>
+            <Fragment>
+                {/* <h2> { genreNameUpper } </h2> */}
+                <InfiniteScroll
+                    initialLoad={false} 
+                    pageStart={2}
+                    loadMore={this.loadData}
+                    hasMore={true}
+                    loader={<Spinner/>}>
+                    <div className="assets-list">
+                    {
+                        this.renderAssets()
+                    }
+                    </div>
+                </InfiniteScroll>
+            </Fragment>
         );
     };
 };

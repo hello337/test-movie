@@ -1,8 +1,10 @@
 import React from 'react';
 import './spinner.sass';
+import { CircleSpinner } from "react-spinners-kit";
 
 const Spinner = () => {
-  return <div>loading...</div>;
+  return <CircleSpinner color={'#000'} size={60} />;
+  //return <div>qy</div>
 };
 
 export default Spinner;

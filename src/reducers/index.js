@@ -4,7 +4,6 @@ const initialState = {
 	error: null,
 	genres: [],
 	assets: [],
-	assetPageCounter: 1,
 	asset: {},
 	trailer: {}
 };
@@ -71,7 +70,6 @@ const initialState = {
 			return {
 				...state,
 				assets: [...state.assets, action.payload],
-				assetPageCounter: state.assetPageCounter + 1,
 				loading: false,
 				error: null
 			};

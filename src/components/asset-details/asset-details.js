@@ -10,6 +10,8 @@ import ReactPlayer from 'react-player';
 import Modal from 'react-modal';
 
 import './asset-details.sass';
+import image from '../../img/not-found.png';
+
 
 class AssetDetails extends Component {
 
@@ -31,17 +33,38 @@ class AssetDetails extends Component {
         this.setState({ showModal: false });
     }
 
+    renderTrailer = (trailerPath) => {
+        if (this.props.trailer.length === 0) {
+            return (
+                <h2>This movie has no trailers!</h2>
+            )
+        } else {
+            return (
+                <div className="player-wrapper">
+                    <ReactPlayer url={trailerPath} playing className="youtube" controls={true}/>
+                </div>
+            )
+        };
+    };
+
     render() {
         const { asset, loading, error, trailer } = this.props; 
-        const { title, overview, poster_path } = asset;
-        console.log(trailer);
+        const { runtime, vote_average, release_date, original_language, original_title, title, overview, poster_path } = asset;
         let trailerPath;
         const path = `https://image.tmdb.org/t/p/w300_and_h450_bestv2${poster_path}`;
+        let imageItem;
+        if(poster_path === null) {
+            imageItem = <img src={image}/>;
+        } else {
+            imageItem = <img src={path}/>;
+        }
         try{
             trailerPath = `https://www.youtube.com/watch?v=${trailer[0].key}`
         } catch {
             trailerPath = ''
         }
+
+        
         if (loading) {
             return <Spinner />;
         }
@@ -51,20 +74,39 @@ class AssetDetails extends Component {
         }
 
         return (
-            <div>
+            <div className="asset-details-content">
                 <div>
-                    <img src={path}/>
+                    <h1>{title}</h1>
                 </div>
-                <div>
-                    <div>
-                        {title}
+                <div className="img-details">
+                    <div className="image">
+                        {imageItem}
                     </div>
-                    <div>
-                        {overview}
+                    <div className="details">
+                        <div className="overview">
+                            <strong>Короткое описание: </strong>{overview}
+                        </div>
+                        <div>
+                            <strong>Оригинальное название: </strong>{original_title}
+                        </div>
+                        <div>
+                            <strong>Оригинальный язык: </strong>{original_language}
+                        </div>
+                        <div>
+                            <strong>Дата выхода: </strong>{release_date}
+                        </div>
+                        <div>
+                            <strong>Средняя оценка: </strong>{vote_average}
+                        </div>
+                        <div>
+                            <strong>Длительность: </strong>{runtime} минут
+                        </div>
+                        <div className="watch-trailer">
+                            <button onClick={this.handleOpenModal}>Watch trailer</button>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <button onClick={this.handleOpenModal}>Watch trailer</button>
+                <div className="modal-wrap">
                     <Modal
                         isOpen={this.state.showModal}
                         contentLabel="onRequestClose Example"
@@ -72,12 +114,12 @@ class AssetDetails extends Component {
                         className="Modal"
                         overlayClassName="Overlay"
                         >
-                        <ReactPlayer url={trailerPath}/>
-                        <button onClick={this.handleCloseModal}>Close Modal</button>
-                    </Modal>
-                </div>
-                
-                
+                        {this.renderTrailer(trailerPath)}
+                        <div className="close-button">
+                            <button onClick={this.handleCloseModal}>Back to details</button>
+                        </div>
+                    </Modal> 
+                </div>         
             </div>
         )
     };
@@ -88,7 +130,6 @@ const mapStateToProps = ({ asset, loading, error, trailer }) => {
 };
   
 const mapDispatchToProps = (dispatch, { moviesService }) => {
-
     return {
         fetchAsset: fetchAsset(moviesService, dispatch),
         fetchTrailer: fetchTrailer(moviesService, dispatch)

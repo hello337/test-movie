@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import './genre-card-list.sass';
 
@@ -37,9 +37,14 @@ class GenreCardList extends Component {
         }
 
         return (
-            <div className="genresArr">
-                {genresCards}
-            </div>
+            <Fragment>
+                <h1>
+                    Жанры
+                </h1>
+                <div className="genresArr">
+                    {genresCards}
+                </div>
+            </Fragment>
         );
     };
 };

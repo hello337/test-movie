@@ -25,7 +25,7 @@ class PopularAssetsList extends Component {
 
         return (
             <Fragment>
-                <div><h2>Popular movies</h2></div>
+                <div><h1>Популярные фильмы</h1></div>
                 <div className="assets-list">
                 {
                     popularAssets.map((asset) => {

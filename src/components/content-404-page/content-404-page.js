@@ -15,14 +15,12 @@ class Content404Page extends Component {
 
     render() {
         const { popularAssets, loading, error } = this.props;
-        console.log(popularAssets);
         let lastThreePopular = [];
         try {
             lastThreePopular = popularAssets.slice(-3);
         } catch {
             lastThreePopular = [];
         }
-        console.log(lastThreePopular);
         if (loading) {
             return <Spinner />;
         }

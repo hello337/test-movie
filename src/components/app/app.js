@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import './app.sass';
 import Header from '../header';
 import { HomePage, CategoriesPage, MoviesByCategoryPage, AssetDetailsPage, PopularPage, NotFoundPage} from '../pages';
-import AssetDetails from '../asset-details';
+
 
 const App = () => {
     return (
@@ -32,7 +32,7 @@ const App = () => {
                     render={
                         ({match}) => {
                             const { id } = match.params;
-                            return <AssetDetails id={id}/>
+                            return <AssetDetailsPage id={id}/>
                         }
                     }
                     exact/>

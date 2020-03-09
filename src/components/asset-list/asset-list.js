@@ -33,7 +33,7 @@ class AssetList extends Component {
     }
 
     render() {
-        const { genres, assets, loading, error } = this.props; 
+        const { genres, error } = this.props; 
         let genreId = this.props.id;
         let genreName = '';
         genres.forEach(item => { if(item.id == genreId) genreName=item.name});
@@ -44,10 +44,6 @@ class AssetList extends Component {
             genreNameUpper = '';
         }
         
-        // if (loading) {
-        //     return <Spinner />;
-        // }
-      
         if (error) {
             return <ErrorIndicator />;
         }
@@ -72,8 +68,8 @@ class AssetList extends Component {
     };
 };
 
-const mapStateToProps = ({ genres, assets, loading, error, assetPageCounter }) => {
-    return { genres, assets, loading, error, assetPageCounter };
+const mapStateToProps = ({ genres, assets, loading, error }) => {
+    return { genres, assets, loading, error };
 };
   
 const mapDispatchToProps = (dispatch, { moviesService }) => {

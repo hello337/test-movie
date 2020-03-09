@@ -5,7 +5,8 @@ const initialState = {
 	genres: [],
 	assets: [],
 	assetPageCounter: 1,
-	asset: {}
+	asset: {},
+	trailer: {}
 };
   
   const reducer = (state = initialState, action) => {
@@ -84,7 +85,7 @@ const initialState = {
 		case 'GET_ASSET_DATA_ACTION':
 			return {
 				...state,
-				assets: {},
+				assets: [],
 				loading: true,
 				error: null
 			};
@@ -99,6 +100,27 @@ const initialState = {
 			return {
 				...state,
 				asset: {},
+				loading: false,
+				error: action.payload
+			};
+		case 'GET_TRAILER_DATA_ACTION':
+			return {
+				...state,
+				trailer: {},
+				loading: true,
+				error: null
+			};
+		case 'TRAILER_DATA_RECEIVED_ACTION':
+			return {
+				...state,
+				trailer: action.payload,
+				loading: false,
+				error: null
+			};
+		case 'TRAILER_DATA_ERROR_ACTION':
+			return {
+				...state,
+				trailer: {},
 				loading: false,
 				error: action.payload
 			};

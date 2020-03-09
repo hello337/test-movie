@@ -32,6 +32,11 @@ export default class MoviesService {
         return res.data;
     }
 
+    getTrailer = async (id) => {
+        const res = await this.getResource(`/asset/${id}/videos`);
+        return res.data.results.map(this._transformTrailer);
+    }
+
     _transformAsset = (asset) => {
         return {
             poster: asset.poster_path,
@@ -39,6 +44,11 @@ export default class MoviesService {
             title: asset.original_title,
             overview: asset.overview,
             imdb: asset.vote_average
+        }
+    }
+    _transformTrailer = (trailer) => {
+        return {
+            key: trailer.key
         }
     }
 }

@@ -116,6 +116,33 @@ const fetchAsset = (moviesService, dispatch) => (id) => {
       .catch((err) => dispatch(assetError(err)));
 };
 
+const trailerRequested = () => {
+    return {
+        type: 'GET_TRAILER_DATA_ACTION'
+    };
+};
+
+const trailerLoaded = (trailer) => {
+    return {
+        type: 'TRAILER_DATA_RECEIVED_ACTION',
+        payload: trailer
+    };
+};
+
+const trailerError = (error) => {
+    return {
+        type: 'TRAILER_DATA_ERROR_ACTION',
+        payload: error
+    };
+};
+
+const fetchTrailer = (moviesService, dispatch) => (id) => {
+    dispatch(trailerRequested());
+    moviesService.getTrailer(id)
+      .then((data) => dispatch(trailerLoaded(data)))
+      .catch((err) => dispatch(trailerError(err)));
+};
+
 
 
 export {
@@ -123,5 +150,6 @@ export {
     fetchPopular,
     fetchGenres,
     fetchGenreAssets,
-    fetchAsset
+    fetchAsset,
+    fetchTrailer
 };

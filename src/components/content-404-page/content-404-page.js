@@ -8,13 +8,21 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import AssetListItem from '../asset-list-item';
 
-class PopularAssetsList extends Component {
+class Content404Page extends Component {
     componentDidMount() {
         this.props.fetchPopular();        
     }
-    render() {
 
-        const { popularAssets, loading, error } = this.props;        
+    render() {
+        const { popularAssets, loading, error } = this.props;
+        console.log(popularAssets);
+        let lastThreePopular = [];
+        try {
+            lastThreePopular = popularAssets.slice(-3);
+        } catch {
+            lastThreePopular = [];
+        }
+        console.log(lastThreePopular);
         if (loading) {
             return <Spinner />;
         }
@@ -22,13 +30,15 @@ class PopularAssetsList extends Component {
         if (error) {
             return <ErrorIndicator />;
         }
-
         return (
-            <Fragment>
-                <div><h2>Popular movies</h2></div>
+            <div>
+                <h1>WOW...404</h1>
+                <h2>
+                    We don't have this page, but you can see this movies
+                </h2>
                 <div className="assets-list">
                 {
-                    popularAssets.map((asset) => {
+                    lastThreePopular.map((asset) => {
                         return (
                             <AssetListItem 
                                 key={asset.id}
@@ -37,10 +47,10 @@ class PopularAssetsList extends Component {
                     })
                 }
                 </div>
-            </Fragment>
+            </div>
         )
-    };
-};
+    }
+}
 
 const mapStateToProps = ({ popularAssets, loading, error }) => {
     return { popularAssets, loading, error };
@@ -53,4 +63,4 @@ const mapDispatchToProps = (dispatch, { moviesService }) => {
     };
 };
 
-export default withMoviesService()(connect(mapStateToProps, mapDispatchToProps)(PopularAssetsList));
+export default withMoviesService()(connect(mapStateToProps, mapDispatchToProps)(Content404Page));

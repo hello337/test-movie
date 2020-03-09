@@ -25,7 +25,8 @@ const App = () => {
                             const { category_id } = match.params;
                             return <MoviesByCategoryPage id={category_id}/>
                         }
-                    }/>
+                    }
+                    exact/>
                 <Route
                     path="/asset/:id"
                     render={
@@ -33,7 +34,8 @@ const App = () => {
                             const { id } = match.params;
                             return <AssetDetails id={id}/>
                         }
-                    }/>
+                    }
+                    exact/>
                 <Route
                     path="/popular"
                     component={PopularPage}/>

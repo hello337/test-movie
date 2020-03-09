@@ -13,18 +13,18 @@ import './asset-list.sass';
 
 class AssetList extends Component {
     componentDidMount() {
-        this.props.resetGenreAssets();
-        this.props.fetchGenreAssets(this.props.id, this.props.assetPageCounter);
+        this.props.fetchGenreAssets(this.props.id, 1);
         this.props.fetchGenres();
+    }
+    componentWillUnmount() {
+        this.props.resetGenreAssets();
     }
 
     loadData = (page) => {
         this.props.fetchGenreAssets(this.props.id, page);
-        console.log('Page: ', page);
     }
 
     renderAssets = () => {
-        console.log('Assets arr', this.props.assets);
         return this.props.assets.map((assetsRender) => assetsRender.map((asset) => <AssetListItem 
             key={asset.id}
             asset={asset} />
@@ -34,17 +34,15 @@ class AssetList extends Component {
 
     render() {
         const { genres, assets, loading, error } = this.props; 
-        // let genreId = this.props.id;
-        // console.log(genreId);
-        // let genreName = '';
-        // genres.forEach(item => {console.log(typeof(item.id)); if(item.id == genreId) genreName=item.name});
-        // console.log(genreName,typeof(genreName));
-        // let genreNameUpper;
-        // try {
-        //     genreNameUpper = genreName[0].toUpperCase() + genreName.slice(1);
-        // } catch {
-        //     genreNameUpper = '';
-        // }
+        let genreId = this.props.id;
+        let genreName = '';
+        genres.forEach(item => { if(item.id == genreId) genreName=item.name});
+        let genreNameUpper;
+        try {
+            genreNameUpper = genreName[0].toUpperCase() + genreName.slice(1);
+        } catch {
+            genreNameUpper = '';
+        }
         
         // if (loading) {
         //     return <Spinner />;
@@ -56,7 +54,7 @@ class AssetList extends Component {
 
         return (
             <Fragment>
-                {/* <h2> { genreNameUpper } </h2> */}
+                <h2> { genreNameUpper } </h2>
                 <InfiniteScroll
                     initialLoad={false} 
                     pageStart={2}

@@ -19,7 +19,7 @@ const AssetListItem = ({ asset }) => {
     return (
         <div className="asset-card">
             <Link to={assetPath}>
-                <div className="wrap">
+                <div>
                     <div className="img-wrap">
                         {imageItem}
                     </div>

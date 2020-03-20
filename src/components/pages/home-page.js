@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Carousel from '../carousel';
 
 const HomePage = () => {
      
     return (
-        <div className="wrap">
-            <Carousel/>
-        </div>
+        <Fragment>
+            <h1>Welcome!</h1>
+            <div className="wrap">
+                <Carousel/>
+            </div>
+        </Fragment>
     );
 };
 

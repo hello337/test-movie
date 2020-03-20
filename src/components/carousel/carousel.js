@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Slider from "react-slick";
 
 import { connect } from 'react-redux';
 import { fetchPopular } from '../../actions';
@@ -12,73 +11,89 @@ import {Link} from 'react-router-dom';
 import './carousel.sass';
  
 
-function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "black", borderRadius: '100px' }}
-        onClick={onClick}
-      />
-    );
-}
-
-function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "black", borderRadius: '100px'}}
-        onClick={onClick}
-      />
-    );
-}
-
 class Carousel extends Component {
+	
+	state = {
+		active: 0
+	}
 
     componentDidMount() {
         this.props.fetchPopular();        
-    }
-    render() {
-        const settings = {
-            infinite: true,
-            nextArrow: <SampleNextArrow />,
-            prevArrow: <SamplePrevArrow />,
-            autoplay: true,
-            speed: 2000,
-            autoplaySpeed: 3000,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            slide: 'div',
-            draggable: false,
-            responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: true
-                  }
-                },
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    initialSlide: 2
-                  }
-                },
-                {
-                  breakpoint: 480,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                  }
-                }
-              ]
-        };
+	}
+	
+	nextOne = () => {
+        (this.state.active < this.props.popularAssets.length - 1) ? 
+        this.setState((state) => ({
+            active: state.active + 1
+        })) : 
+        this.setState({
+            active: 0
+        })
+	}
+	
+	prevOne = () => {
+        (this.state.active > 0) ? 
+        this.setState((state) => ({
+            active: state.active - 1
+        })) : 
+        this.setState({
+            active: this.props.popularAssets.length - 1
+        })
+	}
+	
+	setSliderStyles = () => {
 
+        const transition = this.state.active * - 100 / this.props.popularAssets.length;
+
+        return {
+            width: (this.props.popularAssets.length * 100) + '%',
+            transform: `translateX(${transition}%)`
+        }
+	}
+	
+	renderSlides = () => {
+        const transition = 100 / this.props.popularAssets.length + "%";
+
+        return this.props.popularAssets.map((asset) => {
+            const path = `https://image.tmdb.org/t/p/w300_and_h450_bestv2${asset.poster}`;
+            const linkPath = `/asset/${asset.id}`;
+            return(   
+                <Link to={linkPath} key = {asset.id}>
+                    <div
+                        className='each-slide'
+                        style = {{width: transition}}>
+                            <img src={path}/>
+                    </div>
+                </Link>
+        )})
+    }
+
+    renderArrows() {
+        return(
+            <div>
+                <button
+                    type="button"
+                    className="arrows prev"
+                    onClick={this.prevOne}>
+                    <svg fill='#FFFFFF' width='50' height='50' viewBox='0 0 24 24'>
+                    <path d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z' stroke="black"/>
+                    <path d='M0 0h24v24H0z' fill='none'/>
+                    </svg>
+                </button>
+                <button
+                    type="button"
+                    className="arrows next"
+                    onClick={this.nextOne}>
+                    <svg fill='#FFFFFF' height='50' viewBox='0 0 24 24' width='50'>
+                    <path d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z' stroke="black"/>
+                    <path d='M0 0h24v24H0z' fill='none'/>
+                    </svg>
+                </button>
+            </div>
+        )
+    }
+
+    render() {
         const { popularAssets, loading, error } = this.props;        
         if (loading) {
             return <Spinner />;
@@ -88,20 +103,13 @@ class Carousel extends Component {
             return <ErrorIndicator />;
         }
         return (
-            <div className="carouselWrap">
-                <Slider {...settings}>
-                    {
-                        popularAssets.map((asset) => {
-                            const path = `https://image.tmdb.org/t/p/w300_and_h450_bestv2${asset.poster}`;
-                            const linkPath = `/asset/${asset.id}`
-                            return (
-                                <Link to={linkPath} key={asset.id}>
-                                    <img src={path}/>
-                                </Link>
-                            )
-                        })
-                    }
-                </Slider>
+            <div className="slider">
+                <div 
+                    className="wrapper"
+                    style={this.setSliderStyles()}>
+                    {this.renderSlides()}                       
+                </div>
+                {this.renderArrows()}
             </div>
         );
     }

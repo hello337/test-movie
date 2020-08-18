@@ -11,8 +11,6 @@ import Modal from 'react-modal';
 
 import './asset-details.sass';
 import image from '../../img/not-found.png';
-
-
 class AssetDetails extends Component {
 
     state = {
@@ -34,37 +32,27 @@ class AssetDetails extends Component {
     }
 
     renderTrailer = (trailerPath) => {
-        if (this.props.trailer.length === 0) {
-            return (
-                <h2>This movie has no trailers!</h2>
-            )
-        } else {
-            return (
-                <div className="player-wrapper">
-                    <ReactPlayer url={trailerPath} playing className="youtube" controls={true}/>
-                </div>
-            )
-        };
+        const { length } = this.props.trailer;
+        return length === 0 ? 
+            <h2>This movie has no trailers!</h2> :
+            <div className="player-wrapper">
+                <ReactPlayer url={trailerPath} playing className="youtube" controls={true}/>
+            </div>
     };
 
     render() {
-        const { asset, loading, error, trailer } = this.props; 
-        const { runtime, vote_average, release_date, original_language, original_title, title, overview, poster_path } = asset;
+        const { asset: { runtime, vote_average, release_date, original_language, original_title, title, overview, poster_path }, 
+                loading, 
+                error, 
+                trailer } = this.props; 
         let trailerPath;
         const path = `https://image.tmdb.org/t/p/w300_and_h450_bestv2${poster_path}`;
-        let imageItem;
-        if(poster_path === null) {
-            imageItem = <img src={image}/>;
-        } else {
-            imageItem = <img src={path}/>;
-        }
         try{
             trailerPath = `https://www.youtube.com/watch?v=${trailer[0].key}`
         } catch {
             trailerPath = ''
         }
 
-        
         if (loading) {
             return <Spinner />;
         }
@@ -80,7 +68,7 @@ class AssetDetails extends Component {
                 </div>
                 <div className="img-details">
                     <div className="image">
-                        {imageItem}
+                        {<img src={poster_path === null ? image : path}/>}
                     </div>
                     <div className="details">
                         <div className="overview">

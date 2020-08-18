@@ -2,7 +2,6 @@ import React from 'react';
 import { MoviesServiceConsumer } from '../movies-service-context';
 
 const withMoviesService = () => (Wrapped) => {
-
   return (props) => {
     return (
       <MoviesServiceConsumer>

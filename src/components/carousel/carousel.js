@@ -22,7 +22,9 @@ class Carousel extends Component {
 	}
 	
 	nextOne = () => {
-        (this.state.active < this.props.popularAssets.length - 1) ? 
+        const { active } = this.state;
+        const { popularAssets: { length } } = this.props;
+        (active < length - 1) ? 
         this.setState((state) => ({
             active: state.active + 1
         })) : 
@@ -32,29 +34,33 @@ class Carousel extends Component {
 	}
 	
 	prevOne = () => {
-        (this.state.active > 0) ? 
+        const { active } = this.state;
+        const { popularAssets: { length } } = this.props;
+        (active > 0) ? 
         this.setState((state) => ({
             active: state.active - 1
         })) : 
         this.setState({
-            active: this.props.popularAssets.length - 1
+            active: length - 1
         })
 	}
 	
 	setSliderStyles = () => {
-
-        const transition = this.state.active * - 100 / this.props.popularAssets.length;
+        const { active } = this.state;
+        const { popularAssets: { length } } = this.props;
+        const transition = active * - 100 / length;
 
         return {
-            width: (this.props.popularAssets.length * 100) + '%',
+            width: (length * 100) + '%',
             transform: `translateX(${transition}%)`
         }
 	}
 	
 	renderSlides = () => {
-        const transition = 100 / this.props.popularAssets.length + "%";
+        const { popularAssets, popularAssets: { length } } = this.props;
+        const transition = 100 / length + "%";
 
-        return this.props.popularAssets.map((asset) => {
+        return popularAssets.map((asset) => {
             const path = `https://image.tmdb.org/t/p/w300_and_h450_bestv2${asset.poster}`;
             const linkPath = `/asset/${asset.id}`;
             return(   
@@ -94,7 +100,7 @@ class Carousel extends Component {
     }
 
     render() {
-        const { popularAssets, loading, error } = this.props;        
+        const { loading, error } = this.props;        
         if (loading) {
             return <Spinner />;
         }

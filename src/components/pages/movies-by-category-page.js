@@ -1,9 +1,9 @@
 import React from 'react';
 import AssetList from '../asset-list';
 
-const MoviesByCategoryPage = (props) => {
+const MoviesByCategoryPage = ({ id }) => {
     return (
-        <AssetList id={props.id}/>
+        <AssetList id={ id }/>
     )     
 };
 

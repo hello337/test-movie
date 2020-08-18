@@ -143,8 +143,6 @@ const fetchTrailer = (moviesService, dispatch) => (id) => {
       .catch((err) => dispatch(trailerError(err)));
 };
 
-
-
 export {
     resetGenreAssets,
     fetchPopular,

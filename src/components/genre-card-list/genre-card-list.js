@@ -13,9 +13,9 @@ import GenreCard from '../genre-card';
 class GenreCardList extends Component {
 
     componentDidMount() {
-        this.props.fetchGenres();
+        const { fetchGenres } = this.props;
+        fetchGenres();
     }
-
     
     render() {
         const { genres, loading, error } = this.props;

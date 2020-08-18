@@ -122,9 +122,6 @@ const initialState = {
 				loading: false,
 				error: action.payload
 			};
-
-
-  
 		default:
 			return state;
     }

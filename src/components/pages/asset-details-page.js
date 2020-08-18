@@ -1,9 +1,9 @@
 import React from 'react';
 import AssetDetails from '../asset-details';
 
-const AssetDetailsPage = (props) => {
+const AssetDetailsPage = ({ id }) => {
     return (
-        <AssetDetails id={props.id}/>
+        <AssetDetails id={ id }/>
     )     
 };
 

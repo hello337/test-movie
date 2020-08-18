@@ -13,28 +13,27 @@ import './asset-list.sass';
 
 class AssetList extends Component {
     componentDidMount() {
-        this.props.fetchGenreAssets(this.props.id, 1);
-        this.props.fetchGenres();
+        const { fetchGenreAssets, fetchGenres } = this.props;
+        fetchGenreAssets(this.props.id, 1);
+        fetchGenres();
     }
     componentWillUnmount() {
-        this.props.resetGenreAssets();
+        const { resetGenreAssets } = this.props;
+        resetGenreAssets();
     }
 
     loadData = (page) => {
-        this.props.fetchGenreAssets(this.props.id, page);
+        const { fetchGenreAssets } = this.props;
+        fetchGenreAssets(this.props.id, page);
     }
 
     renderAssets = () => {
-        return this.props.assets.map((assetsRender) => assetsRender.map((asset) => <AssetListItem 
-            key={asset.id}
-            asset={asset} />
-            ))
-
+        const { assets } = this.props;
+        return assets.map((assetsRender) => assetsRender.map((asset) => <AssetListItem key={asset.id} asset={asset} />))
     }
 
     render() {
-        const { genres, error } = this.props; 
-        let genreId = this.props.id;
+        const { genres, error, id: {genreId} } = this.props; 
         let genreName = '';
         genres.forEach(item => { if(item.id == genreId) genreName=item.name});
         let genreNameUpper;

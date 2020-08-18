@@ -10,7 +10,8 @@ import AssetListItem from '../asset-list-item';
 
 class PopularAssetsList extends Component {
     componentDidMount() {
-        this.props.fetchPopular();        
+        const { fetchPopular } = this.props;
+        fetchPopular();        
     }
     render() {
 

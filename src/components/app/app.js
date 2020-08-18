@@ -5,7 +5,6 @@ import './app.sass';
 import Header from '../header';
 import { HomePage, CategoriesPage, MoviesByCategoryPage, AssetDetailsPage, PopularPage, NotFoundPage} from '../pages';
 
-
 const App = () => {
     return (
         <Fragment>
